@@ -4,6 +4,6 @@ Project Manager - @netFox-lv
 
 Back-end
 
-Fornt-end
+Front-end
 
 Dev-Ops- 
