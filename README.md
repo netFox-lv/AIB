@@ -1,4 +1,3 @@
-# AIB 
+# AIB - Agreement, Invoice & Budget Management 
 
-
-123 231
+Project Manager - @netFox-lv
