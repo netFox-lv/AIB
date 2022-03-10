@@ -9,10 +9,11 @@ Front-end - @rihardsgramatins & @DmitrijsSevostjanovs
 Back-end - @KrishyB & @AleksandrsRumjancevs1
 
 # Launch backend 
-
+```
 python manage.py runserver
-
+```
 # Launch frontend
-
+```
 cd frontend
 npm start
+```
