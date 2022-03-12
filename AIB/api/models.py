@@ -7,6 +7,3 @@ class Agreement(models.Model):
     agreement_numurs = models.IntegerField()
     amount = models.FloatField()
     due_to_date = models.DateField()
-
-    def __str__(self):
-        return self.name
