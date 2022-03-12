@@ -1,11 +1,14 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework.parsers import JSONParser
-from .models import *
-from .serializers import *
+from api.models import *
+from api.serializers import *
+from rest_framework.decorators import api_view
+
 
 # Create your views here.
 
+@api_view(['POST'])
 def AddAgreement(request):
     
     if request.method == 'POST':#Add agreement using JSON through POST method
