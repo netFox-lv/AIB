@@ -8,6 +8,13 @@ Front-end - @rihardsgramatins & @DmitrijsSevostjanovs
 Back-end - @KrishyB & @AleksandrsRumjancevs1
 ```
 # Launch backend 
+
+## First launch 
+```
+cd frontend
+npm install
+```
+
 ```
 python manage.py runserver
 ```
