@@ -7,14 +7,14 @@ PM - @netFox-lv
 Front-end - @rihardsgramatins & @DmitrijsSevostjanovs
 Back-end - @KrishyB & @AleksandrsRumjancevs1
 ```
-# Launch backend 
+## Launch backend 
 
-## First launch 
+# First launch 
 ```
 cd frontend
 npm install
 ```
-
+# Regular launch
 ```
 python manage.py runserver
 ```
