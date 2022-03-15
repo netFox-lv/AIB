@@ -19,5 +19,6 @@ from api import views
 
 
 urlpatterns = [
-    re_path(r'^api/agreement$', views.AddAgreement)
+    re_path(r'^api/agreement$', views.AddAgreement),
+    re_path(r'^api/agreement/(?P<id>[0-9])/$', views.GetAgreement)
 ]
