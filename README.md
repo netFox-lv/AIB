@@ -20,6 +20,7 @@ python manage.py runserver
 cd frontend
 npm install
 ```
+## Regular launch
 ```
 cd frontend
 npm start
