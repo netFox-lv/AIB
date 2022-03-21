@@ -9,16 +9,17 @@ Back-end - @KrishyB & @AleksandrsRumjancevs1
 ```
 # Launch backend 
 
-## First launch 
-```
-cd frontend
-npm install
-```
+
 ## Regular launch
 ```
 python manage.py runserver
 ```
 # Launch frontend
+## First launch 
+```
+cd frontend
+npm install
+```
 ```
 cd frontend
 npm start
