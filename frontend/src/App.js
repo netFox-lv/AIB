@@ -1,25 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react'
 
-function App() {
+const BasicForm = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code>.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    <form method="POST" name="login" id="quick_login_form">
+    <div>
+      <header>Welcome to AIB</header>
     </div>
-  );
+    <h1></h1>
+    <div>
+   <label htmlFor="email">Email</label></div>
+   <div>
+      <input type="text" name="email" id="email"/>
+    </div>
+  
+    <div>
+    <label htmlFor="password">Password</label></div>
+    <div>
+    <input type="text" name="password" id="password"/>
+    </div>
+
+    <div>
+      <button>GO</button>
+    </div>
+    </form>
+    </>
+  )
 }
 
-export default App;
+export default BasicForm;
