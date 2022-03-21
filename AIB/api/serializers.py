@@ -8,4 +8,6 @@ class AgreementSerializer(serializers.ModelSerializer):
         fields = ('id',
         'agreement_numurs',
         'amount',
-        'due_to_date')
+        'due_to_date',
+        #'access_path'
+        )
