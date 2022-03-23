@@ -5,25 +5,30 @@ const BasicForm = () => {
   return (
     <>
     <form method="POST" name="login" id="quick_login_form">
-    <div>
-      <header>Welcome to AIB</header>
+    <h3>A</h3><div>
+      <h1>Log in to AIB</h1>
     </div>
     <h1></h1>
-    <div>
+
+  <div>
    <label htmlFor="email">Email</label></div>
-   <div>
+
+  <div>
       <input type="text" name="email" id="email"/>
     </div>
   
-    <div>
+  <div>
     <label htmlFor="password">Password</label></div>
-    <div>
-    <input type="text" name="password" id="password"/>
-    </div>
+
+  <div>
+    <input type="text" name="password" id="password"/></div>
+
+    <h1></h1>
 
     <div>
-      <button>GO</button>
-    </div>
+      <h2>
+      <button>Log in</button>
+    </h2></div>
     </form>
     </>
   )
