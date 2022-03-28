@@ -7,6 +7,8 @@ from api.models import *
 from api.serializers import *
 from rest_framework.decorators import api_view
 
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 # Create your views here.
 
@@ -32,3 +34,13 @@ def GetAgreement(req, id):
             return Response(ser.data)
         except Agreement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def GetLogin(req, email, passw):
+    if req.method=="GET": #check if correct GET
+        for user in User.objects.filter(email=email):
+            if user.check_password(passw):
+                login(req, user)  #<request>.user will be current user
+                return JsonResponse({'access_granted':True})
+        return JsonResponse({'access_granted':False})
