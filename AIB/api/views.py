@@ -12,15 +12,23 @@ from rest_framework.decorators import api_view
 
 @api_view(['POST'])
 def AddAgreement(request):
-    
     if request.method == 'POST':#Add agreement using JSON through POST method
         data = JSONParser().parse(request)#from JSON
         serializer = AgreementSerializer(data=data)#into table
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)#failed to reckognize data 
+        return JsonResponse(serializer.errors, status=400)#failed to recognize data 
 
+@api_view(['POST'])
+def AddInvoice(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)#from JSON
+        serializer = InvoiceSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(data, status=201)
+        return JsonResponse(serializer.errors, status=400)
 
 @api_view(['GET'])
 def GetAgreement(req, id):
@@ -32,3 +40,13 @@ def GetAgreement(req, id):
             return Response(ser.data)
         except Agreement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def GetInvoice(request,id):
+    if request.method == 'GET':
+        try:
+            invoice = Invoice.objects.get(id=id)
+            serializer = InvoiceSerializer(invoice)
+            return Response(serializer.data)
+        except Invoice.DoesNotExist:
+            return JsonResponse(status=404)
