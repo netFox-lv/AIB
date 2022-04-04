@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.urls import re_path
 from api import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
     re_path(r'^api/agreement$', views.AddAgreement),
     re_path(r'^api/agreement/(?P<id>[0-9])/$', views.GetAgreement),
     re_path(r'^api/invoice$', views.AddInvoice),
-    re_path(r'^api/invoice/(?P<id>[0-9])/$', views.GetInvoice)
-]
+    re_path(r'^api/invoice/(?P<id>[0-9])/$', views.GetInvoice),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
