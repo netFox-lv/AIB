@@ -1,24 +1,16 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+import re
 
 def val_num(kods): #validate agreement number
-    valid = True
-    for ch in kods[0:2]:
-        if not ch.isalpha():
-            valid = False
-    index = 2
-    if not kods[index]=="-":
-        if not kods[index].isalpha():
-            valid = False
-        index += 1
-        if not kods[index]=="-":
-            valid = False
-    index += 1
-    if not kods[index:].isnumeric():
-        valid = False
-    elif int(kods[index:])>999999:
-        valid = False
-    if not valid:
+    if not (re.match(r"^[A-Z][A-Z]-\d\d\d\d\d\d$", kods) 
+    or re.match(r"^[A-Z][A-Z][A-Z]-\d\d\d\d\d\d$", kods)):
         raise ValidationError(
             _("Nepareizs numura formāts!")
+        )
+
+def val_period(periods):
+    if not (re.match(r'^1\d-\d\d\d\d$', periods) or re.match(r'^\d-\d\d\d\d$', periods)):
+        raise ValidationError(
+            _("Nepareizs periods!")
         )
