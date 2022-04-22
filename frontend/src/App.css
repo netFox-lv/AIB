@@ -1,54 +1,44 @@
  form{
+  font-family: 'Popins';
   background-color: rgba(244, 242, 248, 0.959);
-  width: 250px;
-  height: 300px;
-  position: fixed; top:30%; left:40%; right: -50%;
-  border-radius: 10px;
+  width: 380px;
+  height: 560px;
+  position: relative; left: 45%; right: 45%; top: 25%; bottom: 25%;
+  border-radius: 8px;
 }
-h3{
+#logo{
   text-align: center;
-  border-radius: 160px;
-  background-color: blue;
-  width: 35px;
-  height: 35px;
-  margin-left: 105px;
-}
-
-button{
-  font-size: 80%;
-  background-color: blue;
-  width: 180px;
-  height: 25px;
-  border-radius: 5px;
 }
 h1{
-  font-size: 160%;
+  color:#252733;
   text-align: center;
 }
 h2{
-  font-size: 120%;
+  color: #9FA2B4;
   text-align: center;
+  font-size: 100%;
 }
-label{
-text-align: center;
-margin-left: 35px;
-}
-input{
-  text-align: center;
-  margin-left: 35px;
+#pass_label,#email_label {
+  margin-left: 2%;
+  color: #9FA2B4;
   border-radius: 5px;
+}
+#email,#password {
+  color: #4B506D;
+  position: relative;
+  margin-left: 2%;
+  width: 350px;
+  height: 30px;
   
 }
-
 #login_bttn{
-  background-color: #3751FF;
-  color:#FFFFFF ;
+ background-color: #3751FF;
+ color:#FFFFFF;
+ width: 340px;
+ height: 40px;
+ margin-left: 5%;
+ border-radius:5px;
 }
-
-#pass_label,#email_label {
-  font-family: 'Poppins';
-}
-
 /* floating squares */
 .square-container{
   position: absolute;
