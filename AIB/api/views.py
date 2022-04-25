@@ -9,9 +9,6 @@ from api.serializers import *
 from rest_framework.decorators import api_view
 from django.core import serializers
 from django.http import HttpResponseRedirect
-
-
-
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 
