@@ -1,44 +1,98 @@
- form{
-  font-family: 'Popins';
-  background-color: rgba(244, 242, 248, 0.959);
+#quick_login_form {
+  position: absolute;
   width: 380px;
-  height: 560px;
-  position: relative; left: 45%; right: 45%; top: 25%; bottom: 25%;
-  border-radius: 8px;
+  height: 540px;  
+  left: calc(50% - 380px/2 - 1.5px);
+  top: calc(50% - 560px/2 + 14px);
+  background-color: rgba(244, 242, 248, 0.9);
+  border-radius: 14px;
 }
-#logo{
+
+.center{
   text-align: center;
+  display: block;
+  line-height: 15px;
+  margin-top: 5%;
+  margin-bottom: 10%;
 }
-h1{
-  color:#252733;
+
+#first_line{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 5%;
   text-align: center;
+  letter-spacing: 0.3px;
+  color: #252733;
 }
-h2{
+
+#second_line{
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: 0.3px;
   color: #9FA2B4;
-  text-align: center;
-  font-size: 100%;
+  margin-bottom: 9%;
 }
-#pass_label,#email_label {
-  margin-left: 2%;
+
+.email_input,.password_input{
+  font-family: 'Poppins';
+  font-style: normal;
+  width: 316px;
+  height: 64px;
+  left: calc(50% - 316px/2 + 0.5px);
+  top: calc(50% - 64px/2 - 27px);
+  margin: 5.5%;
+}
+
+#email_label,#pass_label{
+
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
   color: #9FA2B4;
-  border-radius: 5px;
 }
-#email,#password {
+
+::placeholder{
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
   color: #4B506D;
-  position: relative;
-  margin-left: 2%;
-  width: 350px;
-  height: 30px;
-  
+  opacity: 0.4;
+  padding: 1%;
 }
-#login_bttn{
+
+#email,#password{
+  background: #FCFDFE;
+  border: 1px solid #F0F1F7;
+  box-sizing: border-box;
+  border-radius: 8px;
+  width: 340px;
+  height: 45px;
+  padding: 2%;
+}
+
+.login_bttn{
  background-color: #3751FF;
  color:#FFFFFF;
+ box-shadow: 0px 4px 12px rgba(55, 81, 255, 0.24);
  width: 340px;
+ line-height: 20px;
  height: 40px;
- margin-left: 5%;
- border-radius:5px;
+ margin: 5.5%;
+ margin-top: 7%;
+ border-radius:8px;
 }
+
+
 /* floating squares */
 .square-container{
   position: absolute;

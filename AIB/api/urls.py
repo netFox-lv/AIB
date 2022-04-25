@@ -21,8 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     re_path(r'^api/agreement$', views.AddAgreement),
-    re_path(r'^api/agreement/(?P<id>[0-9])/$', views.GetAgreement),
+    re_path(r'^api/agreement/(?P<id>[0-9])', views.GetAgreement),
+    re_path(r'^api/agreement/all$', views.getAllAgreements),
     re_path(r'^api/invoice$', views.AddInvoice),
-    re_path(r'^api/invoice/(?P<id>[0-9])/$', views.GetInvoice),
-    re_path(r'^api/login/(?P<email>([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+)/(?P<passw>.*)/$', views.GetLogin)
+    re_path(r'^api/invoice/all$', views.getAllInvoice),
+    re_path(r'^api/invoice/(?P<id>[0-9])', views.GetInvoice),
+    re_path(r'^api/login/(?P<email>([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+)/(?P<passw>.*)', views.GetLogin)
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

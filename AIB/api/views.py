@@ -7,6 +7,10 @@ from rest_framework.parsers import JSONParser
 from api.models import *
 from api.serializers import *
 from rest_framework.decorators import api_view
+from django.core import serializers
+from django.http import HttpResponseRedirect
+
+
 
 from django.contrib.auth.models import User
 from django.contrib.auth import login
@@ -38,7 +42,6 @@ def AddInvoice(request):
 
 @api_view(['GET'])
 def GetAgreement(req, id):
-
     if req.method=="GET": #check if correct GET
         try:
             agr=Agreement.objects.get(id=id) #find agreement w/ id, if this fails return except
@@ -66,3 +69,21 @@ def GetLogin(req, email, passw):
                 login(req, user)  #<request>.user will be current user
                 return JsonResponse({'access_granted':True})
         return JsonResponse({'access_granted':False})
+
+@api_view(['GET'])
+def getAllAgreements(req):
+    if req.method=="GET": #check if correct GET
+        try:
+            data = list(Agreement.objects.values())
+            return Response({'data': data})
+        except Agreement.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+            
+@api_view(['GET'])
+def getAllInvoice(req):
+    if req.method=="GET": #check if correct GET
+        try:
+            data = list(Invoice.objects.values())
+            return Response({'data': data})
+        except Invoice.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
