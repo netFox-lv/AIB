@@ -12,6 +12,7 @@ Back-end - @KrishyB & @AleksandrsRumjancevs1
 
 ## Regular launch
 ```
+cd AIB
 python manage.py runserver
 ```
 # Launch frontend
