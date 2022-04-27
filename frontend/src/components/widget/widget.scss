@@ -1,0 +1,45 @@
+.widget{
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    border: 1px solid #DFE0EB;
+    box-sizing: border-box;
+    border-radius: 8px;
+    height: 134px;
+    justify-content: center;
+        &:hover {
+            cursor: pointer;
+            color: #3751FF;   
+            border: 1px solid #3751FF;
+            box-sizing: border-box;
+            border-radius: 8px;
+            outline: 2px solid #DDE2FF;      
+    }
+    .content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+        .title{
+            color: #9FA2B4;     
+            font-style: normal;
+            font-weight: 600;
+            font-size: 19px;
+            line-height: 28px;
+            text-align: center;
+            letter-spacing: 0.4px;
+        }
+
+        .count{
+            font-style: normal;
+            font-weight: 600;
+            font-size: 40px;
+            line-height: 60px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+    }
+    
+}

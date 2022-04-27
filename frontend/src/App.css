@@ -1,201 +1,38 @@
-#quick_login_form {
-  position: absolute;
-  width: 380px;
-  height: 540px;  
-  left: calc(50% - 380px/2 - 1.5px);
-  top: calc(50% - 560px/2 + 14px);
-  background-color: rgba(244, 242, 248, 0.9);
-  border-radius: 14px;
-}
-
-.center{
+.App {
   text-align: center;
-  display: block;
-  line-height: 15px;
-  margin-top: 5%;
-  margin-bottom: 10%;
 }
 
-#first_line{
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 5%;
-  text-align: center;
-  letter-spacing: 0.3px;
-  color: #252733;
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
 }
 
-#second_line{
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  text-align: center;
-  letter-spacing: 0.3px;
-  color: #9FA2B4;
-  margin-bottom: 9%;
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
 }
 
-.email_input,.password_input{
-  font-family: 'Poppins';
-  font-style: normal;
-  width: 316px;
-  height: 64px;
-  left: calc(50% - 316px/2 + 0.5px);
-  top: calc(50% - 64px/2 - 27px);
-  margin: 5.5%;
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-#email_label,#pass_label{
-
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 18px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  color: #9FA2B4;
+.App-link {
+  color: #61dafb;
 }
 
-::placeholder{
-
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.3px;
-  color: #4B506D;
-  opacity: 0.4;
-  padding: 1%;
-}
-
-#email,#password{
-  background: #FCFDFE;
-  border: 1px solid #F0F1F7;
-  box-sizing: border-box;
-  border-radius: 8px;
-  width: 340px;
-  height: 45px;
-  padding: 2%;
-}
-
-.login_bttn{
- background-color: #3751FF;
- color:#FFFFFF;
- box-shadow: 0px 4px 12px rgba(55, 81, 255, 0.24);
- width: 340px;
- line-height: 20px;
- height: 40px;
- margin: 5.5%;
- margin-top: 7%;
- border-radius:8px;
-}
-
-
-/* floating squares */
-.square-container{
-  position: absolute;
-  z-index: -1;
-  background: #ffffff;
-  background: -webkit-linear-gradient(to left, #ffffff, #ebebe8);
-  width: 97%;
-  height: 98%;
-  top: 0;
-}
-[data-theme="dark"] .square-container{
-  background: var(--background-color-dark);
-}
-.square{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-.square li{
-  position: absolute;
-  display: block;
-  list-style: none;
-  width: 20px;
-  height: 20px;
-  background: rgba(55, 54, 65, 0.300);
-  animation: animate 25s linear infinite;
-  bottom: -150px;
-}
-.square li:nth-child(1){
-  left: 25%;
-  width: 80px;
-  height: 80px;
-  animation-delay: 0s;
-}
-.square li:nth-child(2){
-  left: 10%;
-  width: 20px;
-  height: 20px;
-  animation-delay: 2s;
-  animation-duration: 12s;
-}
-.square li:nth-child(3){
-  left: 70%;
-  width: 20px;
-  height: 20px;
-  animation-delay: 4s;
-}
-.square li:nth-child(4){
-  left: 40%;
-  width: 60px;
-  height: 60px;
-  animation-delay: 0s;
-  animation-duration: 18s;
-}
-.square li:nth-child(5){
-  left: 65%;
-  width: 20px;
-  height: 20px;
-  animation-delay: 0s;
-}
-.square li:nth-child(6){
-  left: 75%;
-  width: 110px;
-  height: 110px;
-  animation-delay: 3s;
-}
-.square li:nth-child(7){
-  left: 35%;
-  width: 150px;
-  height: 150px;
-  animation-delay: 7s;
-}
-.square li:nth-child(8){
-left: 50%;
-width: 25px;
-height: 25px;
-animation-delay: 15s;
-animation-duration: 45s;
-}
-.square li:nth-child(9){
-left: 20%;
-width: 15px;
-height: 15px;
-animation-delay: 2s;
-animation-duration: 35s;
-}
-.square li:nth-child(10){
-left: 85%;
-width: 150px;
-height: 150px;
-animation-delay: 0s;
-animation-duration: 11s;
-}
-@keyframes animate {
-0%{
-transform: translateY(0) rotate(45deg);
-opacity: 1;
-}
-100%{
-transform: translateY(-1000px) rotate(45deg);
-opacity: 0;
-}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
