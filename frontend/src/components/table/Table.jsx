@@ -6,34 +6,45 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const List = () => {
-  const rows = [
-    {
-      id: 2235235,
-      customer: "Michael Doe",
-      date: "1 March",
-      amount: 900,
-      method: "Online Payment",
-      status: "Pending",
-    },
-    {
-      id: 2342353,
-      customer: "John Smith",
-      date: "1 March",
-      amount: 35,
-      method: "Cash on Delivery",
-      status: "Pending",
-    },
-    {
-      id: 2342355,
-      customer: "Harold Carol",
-      date: "1 March",
-      amount: 2000,
-      method: "Online",
-      status: "Pending",
-    },
-  ];
+const get_recents_url = 'http://127.0.0.1:8000/api/recentInv';
+
+export default function List() {
+  
+  const [data, setData] = useState({ invoices: [] });
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await axios
+        .get(get_recents_url)
+        .then(function (res) {
+          console.log(res.status);
+          if (res.status !== 404) {
+            let table = res.data["data"];
+            let invoices = [];
+            table.forEach(element => {
+              invoices.push({
+                id: element["id"],
+                customer: element["customer"],
+                date: element["invoice_date"],
+                amount: element["amount"],
+                method: element["payment_method"],
+                status: ((element["paid"]) ? "Approved" : "Pending"),
+              });
+            });
+            return invoices;
+          }
+        }).catch(function (e) {
+          console.log(e);
+        });
+      setData({ invoices: data });
+    }
+
+    fetchData();
+  },[]);
+
   return (
     <TableContainer component={Paper} className="table">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -48,7 +59,7 @@ const List = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.invoices.map((row) => (
             <TableRow key={row.id}>
               <TableCell className="tableCell">{row.id}</TableCell>
               <TableCell className="tableCell">{row.customer}</TableCell>
@@ -64,6 +75,5 @@ const List = () => {
       </Table>
     </TableContainer>
   );
-};
 
-export default List;
+};
