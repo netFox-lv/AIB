@@ -84,3 +84,14 @@ def getAllInvoice(req):
             return Response({'data': data})
         except Invoice.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def getRecent(req):
+    if req.method == "GET":
+        try:
+            data = list(Invoice.objects.values())
+            data = sorted(data, key=lambda x: x["invoice_date"],reverse=True)
+            data = data[0:3]
+            return Response({'data': data})
+        except Invoice.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)

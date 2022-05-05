@@ -20,8 +20,10 @@ class InvoiceSerializer(serializers.ModelSerializer):
         fields =(
             'id',
             'invoice_number',
+            'customer',
             'amount',
             'invoice_date',
+            'payment_method',
             'payment_to_date',
             'payment_period_month',
             'payment_period_year',
