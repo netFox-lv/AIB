@@ -1,3 +1,4 @@
+from logging import Filter
 from django.http import JsonResponse
 from api.forms import AgreementForm
 from rest_framework.response import Response
@@ -84,3 +85,46 @@ def getAllInvoice(req):
             return Response({'data': data})
         except Invoice.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def getRecent(req):
+    if req.method == "GET":
+        try:
+            data = list(Invoice.objects.values())
+            data = sorted(data, key=lambda x: x["invoice_date"],reverse=True)
+            data = data[0:3]
+            return Response({'data': data})
+        except Invoice.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def getUnresovledInv(req):
+    if req.method == "GET":
+        try:
+            data = Invoice.objects.filter(paid = False).count()
+            return Response({'count':data})
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def getNewAgr(req):
+    if req.method == "GET":
+        try:
+            data = Agreement.objects.filter(status="pending sign off").count()
+            return Response({'count':data})
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def getFinAgr(req):
+    if req.method == "GET":
+        try:
+            data = Agreement.objects.filter(status="finished").count()
+            return Response({'count':data})
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def getDrafts(req):
+    if req.method == "GET":#TODO whatever needs to be done at the 4. widget
+        return Response(status=status.HTTP_404_NOT_FOUND)

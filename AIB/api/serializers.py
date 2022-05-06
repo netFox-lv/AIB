@@ -7,10 +7,13 @@ from api.models import Agreement
 class AgreementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Agreement
-        fields = ('id',
+        fields = (
+        'id',
         'agreement_numurs',
         'amount',
+        'customer',
         'due_to_date',
+        'status',
         'document_file'
         )
 

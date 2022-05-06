@@ -10,7 +10,9 @@ class Agreement(models.Model):
     id = models.AutoField(primary_key=True)
     agreement_numurs = models.TextField(unique=True,validators=[val_num]) # 2/3 letter + "-"+ 6xdigital [0-9] 
     amount = models.FloatField()
+    customer = models.TextField()
     due_to_date = models.DateField()
+    status = models.TextField(default="pending sign off")
     document_file = models.FileField(upload_to = "agreements", blank=True)# file_path -> i need download -> get a link
 
 class Invoice(models.Model):
