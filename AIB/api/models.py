@@ -17,9 +17,15 @@ class Agreement(models.Model):
 
 class Invoice(models.Model):
     id = models.AutoField(primary_key=True)
+    class paymentMethods(models.TextChoices):
+            ONLINE = 'Online'
+            ON__DELIVERY = 'Cash on delivery'
+            BEFORE_DELIVERY = 'Cash before delivery'
     invoice_number = models.TextField(unique=True,validators=[val_num])
+    customer = models.TextField()
     amount = models.FloatField()
     invoice_date = models.DateField()
+    payment_method = models.TextField(choices=paymentMethods.choices, default=paymentMethods.ONLINE)
     payment_to_date = models.DateField()
     payment_period_month = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(12)])
     payment_period_year = models.PositiveIntegerField()

@@ -12,9 +12,11 @@ let handleDubmit = async (e) => {
     });
     let resJSON = await res.json();
     if (resJSON['access_granted']===true){
-      window.location.replace("http://127.0.0.1:8000/admin/");
+      window.location.replace("http://127.0.0.1:3000/home");
     } else { 
-      window.location.replace("http://127.0.0.1:3000/");
+      document.getElementById("error_label").style ="color: red;text-align: center; font-size: 16px;";
+      document.getElementById("error_label").innerHTML= "Invalid email or password. <BR> Please try again";
+      document.getElementById("password").value='';
     }
   } catch (err) {
     console.log(err);
@@ -43,13 +45,14 @@ const BasicForm = () => {
       <div class="login_form">
         <div id= "logo">
            <span class="center"> 
-            <img src={/* require */('./src/img/logo/logo.png')} alt="Logo" width="80px" class="image"/>
+            <img src={require ('../../img/logo/logo.png')} alt="Logo" width="80px" class="image"/>
            </span>
         </div>
         <div class ="login_form_text">
-           <p id ="first_line">Log in to AIB</p>
+          <p id ="first_line">Log in to AIB</p>
           <p id = "second_line">Enter your email and password bellow</p>
         </div>
+        <p id="error_label"></p> 
         <div class = "login_input_forms">
           <div class = "email_input">
             <label htmlFor="email" id="email_label">EMAIL</label><br/>
