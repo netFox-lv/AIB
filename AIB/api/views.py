@@ -1,3 +1,4 @@
+import datetime
 from logging import Filter
 from django.http import JsonResponse
 from api.forms import AgreementForm
@@ -12,6 +13,8 @@ from django.core import serializers
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login
+from django.db.models import Sum
+
 
 # Create your views here.
 
@@ -128,3 +131,25 @@ def getFinAgr(req):
 def getDrafts(req):
     if req.method == "GET":#TODO whatever needs to be done at the 4. widget
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def getIncomePerMonth(req):
+    if req.method == "GET":
+        try:
+            data = []
+            currMonth = datetime.now().month
+            currYear = datetime.now().year
+            for i in range(1,currMonth):#all this year's months before current
+                data.append(Invoice.objects.all()
+                .filter(invoice_date__lt=datetime.date(currYear,i+1,1))#invoices before the next month's first day(less than)
+                .filter(invoice_date__gte=datetime.date(currYear,i,1))#invoices in this month's first day or later(greater or equal)
+                .aggregate(Sum('amount'))[i])
+            currYear = currYear-1#go back a year
+            for i in range(currMonth,13):#months within a year of current
+                data.append(Invoice.objects.all()
+                .filter(invoice_date__lt=datetime.date(currYear,i+1,1))#invoices before the next month's first day(less than)
+                .filter(invoice_date__gte=datetime.date(currYear,i,1))#invoices in this month's first day or later(greater or equal)
+                .aggregate(Sum('amount'))[i])
+            return Response({'count':data})
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)

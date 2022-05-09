@@ -32,5 +32,5 @@ urlpatterns = [
     re_path(r'^api/newAgr$',views.getNewAgr),
     re_path(r'^api/finishedAgr$',views.getFinAgr),
     re_path(r'^api/draftcount$',views.getDrafts),
->>>>>>> Stashed changes
+    re_path(r'^api/incPerMonth$',views.getIncomePerMonth),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
