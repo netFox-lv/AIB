@@ -22,3 +22,10 @@ class Invoice(models.Model):
     payment_period_month = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(12)])
     payment_period_year = models.PositiveIntegerField()
     paid = models.BooleanField()
+
+def nameFile(instance, filename):
+    return '/'.join(['pdfs', str(instance.name), filename])
+
+class UploadPdf(models.Model):
+    name = models.CharField(max_length=100)
+    pdf = models.FileField(upload_to=nameFile, blank=True, null=True)
