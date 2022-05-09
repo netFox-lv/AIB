@@ -26,14 +26,11 @@ urlpatterns = [
     re_path(r'^api/invoice$', views.AddInvoice),
     re_path(r'^api/invoice/all$', views.getAllInvoice),
     re_path(r'^api/invoice/(?P<id>[0-9])', views.GetInvoice),
-<<<<<<< Updated upstream
-    re_path(r'^api/login/(?P<email>([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+)/(?P<passw>.*)', views.GetLogin)
-=======
     re_path(r'^api/login/(?P<email>([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+)/(?P<passw>.*)', views.GetLogin),
     re_path(r'^api/recentInv$',views.getRecent),
     re_path(r'^api/unresolvedInv$',views.getUnresovledInv),
     re_path(r'^api/newAgr$',views.getNewAgr),
     re_path(r'^api/finishedAgr$',views.getFinAgr),
     re_path(r'^api/draftcount$',views.getDrafts),
->>>>>>> Stashed changes
+    re_path(r'^api/incPerMonth$',views.getIncomePerMonth),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
