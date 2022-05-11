@@ -137,19 +137,28 @@ def getIncomePerMonth(req):
     if req.method == "GET":
         try:
             data = []
-            currMonth = datetime.now().month
-            currYear = datetime.now().year
-            for i in range(1,currMonth):#all this year's months before current
-                data.append(Invoice.objects.all()
-                .filter(invoice_date__lt=datetime.date(currYear,i+1,1))#invoices before the next month's first day(less than)
-                .filter(invoice_date__gte=datetime.date(currYear,i,1))#invoices in this month's first day or later(greater or equal)
-                .aggregate(Sum('amount'))[i])
+            today = datetime.datetime.today()
+            currMonth = today.month
+            currYear = today.year
             currYear = currYear-1#go back a year
-            for i in range(currMonth,13):#months within a year of current
-                data.append(Invoice.objects.all()
+            for i in range(currMonth,13):#months from the previous year within a year of current
+                if not i==12:#have to take next january of year for next date if it's december
+                    data.append([i,(Invoice.objects.all()
                 .filter(invoice_date__lt=datetime.date(currYear,i+1,1))#invoices before the next month's first day(less than)
                 .filter(invoice_date__gte=datetime.date(currYear,i,1))#invoices in this month's first day or later(greater or equal)
-                .aggregate(Sum('amount'))[i])
-            return Response({'count':data})
-        except:
+                .aggregate(Sum('amount')))['amount__sum']])
+                else:
+                    data.append([i,(Invoice.objects.all()
+                .filter(invoice_date__lt=datetime.date(currYear+1,1,1))#invoices before the next month's first day(less than)
+                .filter(invoice_date__gte=datetime.date(currYear,i,1))#invoices in this month's first day or later(greater or equal)
+                .aggregate(Sum('amount')))['amount__sum']])
+            currYear += 1#back to the present year
+            for i in range(1,currMonth):#all this year's months before current(never going to visit 12)
+                data.append([i,(Invoice.objects.all()
+                .filter(invoice_date__lt=datetime.date(currYear,i+1,1))#invoices before the next month's first day(less than)
+                .filter(invoice_date__gte=datetime.date(currYear,i,1))#invoices in this month's first day or later(greater or equal)
+                .aggregate(Sum('amount')))['amount__sum']])
+            
+            return Response({'data':data})
+        except :
             return Response(status=status.HTTP_404_NOT_FOUND)
