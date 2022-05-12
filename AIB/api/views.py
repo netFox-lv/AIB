@@ -198,6 +198,7 @@ def getLoginInfo(req):
 def logout(req):
     if req.method == "GET":
         try:
+            print("logging out user ",req.user)
             logout(req.user)
         except Exception as e:
             Response({'err': e})

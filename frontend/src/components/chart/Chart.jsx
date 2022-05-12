@@ -5,21 +5,6 @@ import axios from "axios";
 
 const get_monthly_income_url = 'http://127.0.0.1:8000/api/incPerMonth';
 
-/*const data = [
-    { name: "Jan", Total: 1200 },
-    { name: "Feb", Total: 2100 },
-    { name: "Mar", Total: 800 },
-    { name: "Apr", Total: 1600 },
-    { name: "May", Total: 900 },
-    { name: "Jun", Total: 1700 },
-    { name: "Jul", Total: 1200 },
-    { name: "Aug", Total: 2100 },
-    { name: "Sep", Total: 1600 },
-    { name: "Oct", Total: 1900 },
-    { name: "Nov", Total: 900 },
-    { name: "Dec", Total: 700 },
-  ];*/
-
   export default function Chart(){
   const [data, setData] = useState({data:[]});
 

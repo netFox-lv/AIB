@@ -1,7 +1,10 @@
 import "./sidebar.scss"
 import { FiPieChart, FiEdit, FiInbox, FiTrendingUp, FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+function logout(){
+  axios.get("http://127.0.0.1:8000/api/logout")
+}
 const Sidebar = () => {
   return (
     <div className='sidebar'>
@@ -31,7 +34,7 @@ const Sidebar = () => {
           </ul>
           <hr />
           <ul>
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: "none" }}  onclick="logout()">
             <li>
               <FiLogOut className="icon" />
               <span>Log Out</span>
