@@ -1,26 +1,27 @@
 import './login.css';
 import React from 'react'
-
+import axios from "axios";
 
 
 let handleDubmit = async (e) => {
   e.preventDefault();
-  try {
-    const url=`http://127.0.0.1:8000/api/login/${document.getElementById("email").value}/${document.getElementById("password").value}`;
-    let res = await fetch(url, {
-      method:"GET"
-    });
-    let resJSON = await res.json();
-    if (resJSON['access_granted']===true){
+  axios.post('http://127.0.0.1:8000/api/login/',{
+    withCredentials: true,
+    email: document.getElementById("email").value,
+    password: document.getElementById("password").value
+  })
+  .then(res => {
+    if (res.data['access_granted']===true){
       window.location.replace("http://127.0.0.1:3000/home");
     } else { 
       document.getElementById("error_label").style ="color: red;text-align: center; font-size: 16px;";
       document.getElementById("error_label").innerHTML= "Invalid email or password. <BR> Please try again";
       document.getElementById("password").value='';
     }
-  } catch (err) {
-    console.log(err);
-  }
+  })
+  .catch((e) => {
+    console.log(e);
+  });
 }
 
 

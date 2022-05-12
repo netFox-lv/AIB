@@ -1,8 +1,10 @@
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import axios from "axios";
 
 function App() {
+  axios.defaults.withCredentials = true;
   return (
     <div className="App">
       <BrowserRouter>

@@ -31,7 +31,7 @@ const Sidebar = () => {
           </ul>
           <hr />
           <ul>
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <li>
               <FiLogOut className="icon" />
               <span>Log Out</span>

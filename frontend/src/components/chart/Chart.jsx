@@ -45,7 +45,6 @@ const get_monthly_income_url = 'http://127.0.0.1:8000/api/incPerMonth';
       .catch(function (e){
         console.log(e);
       });
-      console.log(mas);
       setData({data: mas});
     }
     fetchData();
