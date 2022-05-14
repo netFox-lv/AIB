@@ -2,7 +2,7 @@ from dataclasses import fields
 from api.models import Invoice
 from rest_framework import serializers
 
-from api.models import Agreement
+from api.models import Agreement, UploadPdf
 
 class AgreementSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,4 +31,12 @@ class InvoiceSerializer(serializers.ModelSerializer):
             'payment_period_month',
             'payment_period_year',
             'paid',
+        )
+        
+class PdfSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UploadPdf
+        fields = (
+            'name',
+            'pdf',
         )
