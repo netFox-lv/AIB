@@ -14,6 +14,11 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.db.models import Sum
+import os
+import pytesseract
+from pdf2image import convert_from_path
+from dateutil import parser
+import datetime
 
 
 # Create your views here.
@@ -153,3 +158,87 @@ def getIncomePerMonth(req):
             return Response({'count':data})
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def AddPdf(request):
+
+    if request.method == 'POST':#Add agreement using JSON through POST method
+        serializer = PdfSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            pdfurl=serializer.data.get('pdf')
+            pdfnam=serializer.data.get('name')
+            pdfurl=pdfurl[pdfurl.rfind('/')+1:-4]
+            pages = convert_from_path(os.path.abspath(os.path.dirname(__name__))+os.path.normcase(serializer.data.get('pdf')),poppler_path=(os.path.dirname(__name__)+"poppler-0.68.0//bin"))
+            (pages[0]).save(os.path.dirname(__name__)+"temp/temp_"+pdfnam+"_"+pdfurl+".jpg", 'JPEG')
+            s = pytesseract.image_to_string(os.path.dirname(__name__)+"temp/temp_"+pdfnam+"_"+pdfurl+".jpg", config=r'--oem 3 --psm 6')
+            os.remove(os.path.dirname(__name__)+"temp/temp_"+pdfnam+"_"+pdfurl+".jpg")
+
+            vatp=s.rfind("VAT")
+
+            s=s.lower()
+            finds=s.find("invoice number ")
+            if (finds>0):
+                finde=s.find("\n", finds+1)
+                finds=s.rfind(" ",0,finde-1)+1
+                inum=s[finds:finde]
+            else:inum=""
+
+            finds=s.find("invoice date")
+            if (finds>0):
+                finde=s.find("\n", finds+1)
+                finds=s.find(" ",finds+11)+1
+                idats=s[finds:finde]
+            else:idats=""
+            idat=parser.parse(idats)
+            if (idat.day<=15):
+                pdat=idat-datetime.timedelta(weeks = 3)
+            else:
+                pdat=idat
+
+            finds=s.find("due date")
+            if (finds>0):
+                finde=s.find("\n", finds+1)
+                finds=s.find(" ",finds+7)+1
+                ddats=s[finds:finde]
+            else:ddats=""
+            ddat=parser.parse(ddats)
+
+
+            keyset=["sum", "total", "amount", "papildinat_in_lowercase"]
+            finde=s.find("\n", vatp+1)
+            corrkey="null"
+            for key in keyset:
+                if ((s.find(key,finde))>0):
+                    corrkey=key
+                    break
+            finds=s.find(corrkey,finde)
+            finde=s.find("\n", finds+1)
+            if (finds>0):
+                finde=s.find("\n", finds+1)
+                amou=s[finde-1:finde]
+                while (not(amou.isdigit())):
+                    finde=s.rfind(" ",0,finde-1)
+                    amou=s[finde-1:finde]
+                finds=s.rfind(" ",0,finde-1)-1
+                amou=s[finds:finds+1]
+                while (amou.isdigit()):
+                    finds=s.rfind(" ",0,finds-1)-1
+                    amou=s[finds:finds+1]
+                amou=s[finds+2:finde]
+            else:amou=""
+
+            #return JsonResponse(s, status=201, safe=False)
+
+            return JsonResponse({
+                                    "invoice_number": inum,
+                                    "amount": amou,
+                                    "invoice_date": idat,
+                                    "payment_to_date": ddat,
+                                    'payment_period_month': pdat.month,
+                                    'payment_period_year': pdat.year,
+                                    'paid': False,
+                                    'pdf': serializer.data.get('pdf'),
+                                }, status=201, safe=False)
+        return JsonResponse(serializer.errors, status=400)            

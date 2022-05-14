@@ -33,4 +33,5 @@ urlpatterns = [
     re_path(r'^api/finishedAgr$',views.getFinAgr),
     re_path(r'^api/draftcount$',views.getDrafts),
     re_path(r'^api/incPerMonth$',views.getIncomePerMonth),
+    re_path(r'^api/img$', views.AddPdf)
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
