@@ -1,6 +1,6 @@
 import datetime
 from logging import Filter
-from django.http import JsonResponse
+from django.http import HttpRequest, JsonResponse
 from api.forms import AgreementForm
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,9 +12,8 @@ from rest_framework.decorators import api_view
 from django.core import serializers
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.db.models import Sum
-from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -70,6 +69,7 @@ def Login(req):
             password = req.data['password']
             user = authenticate(req, username=username, password= password)
             if user is not None:
+                print("logging in..")
                 login(req,user)
                 print("user logged in:",user)
                 return Response({'access_granted':True})
@@ -181,7 +181,6 @@ def getProgress(req):
 
 @api_view(['GET'])
 def getLoginInfo(req):
-    print(req.user)
     if req.method == "GET":
         try:
             if req.user.is_authenticated:
@@ -195,10 +194,10 @@ def getLoginInfo(req):
             return Response({'logged_in':False},status=400)
 
 @api_view(['GET'])
-def logout(req):
-    if req.method == "GET":
-        try:
-            print("logging out user ",req.user)
-            logout(req.user)
-        except Exception as e:
-            Response({'err': e})
+def getLogout(req):
+    try:
+        logout(req)
+        return Response(status=200)
+    except Exception as e:
+        print(e)
+        return Response(status=401)

@@ -26,7 +26,7 @@ urlpatterns = [
     re_path(r'^api/invoice$', views.AddInvoice),
     re_path(r'^api/invoice/all$', views.getAllInvoice),
     re_path(r'^api/invoice/(?P<id>[0-9])', views.GetInvoice),
-    re_path(r'^api/login/',views.Login),
+    re_path(r'^api/login$',views.Login),
     re_path(r'^api/recentInv$',views.getRecent),
     re_path(r'^api/unresolvedInv$',views.getUnresovledInv),
     re_path(r'^api/newAgr$',views.getNewAgr),
@@ -34,5 +34,5 @@ urlpatterns = [
     re_path(r'^api/draftcount$',views.getDrafts),
     re_path(r'^api/incPerMonth$',views.getIncomePerMonth),
     re_path(r'^api/loginInfo$',views.getLoginInfo),
-    re_path(r'^api/logout$',views.logout),
+    re_path(r'^api/logout$',views.getLogout),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

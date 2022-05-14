@@ -2,17 +2,19 @@ import './login.css';
 import React from 'react'
 import axios from "axios";
 
+const is_logged_url = 'http://127.0.0.1:8000/api/loginInfo';
+const home_url = "http://127.0.0.1:3000/home";
 
 let handleDubmit = async (e) => {
   e.preventDefault();
-  axios.post('http://127.0.0.1:8000/api/login/',{
+  axios.post('http://127.0.0.1:8000/api/login',{
     withCredentials: true,
     email: document.getElementById("email").value,
     password: document.getElementById("password").value
   })
   .then(res => {
     if (res.data['access_granted']===true){
-      window.location.replace("http://127.0.0.1:3000/home");
+      window.location.replace(home_url);
     } else { 
       document.getElementById("error_label").style ="color: red;text-align: center; font-size: 16px;";
       document.getElementById("error_label").innerHTML= "Invalid email or password. <BR> Please try again";
@@ -25,8 +27,15 @@ let handleDubmit = async (e) => {
 }
 
 
+
 const BasicForm = () => {
 
+  axios.get(is_logged_url)
+  .then(res => {
+    if (res.data['logged_in']){
+      window.location.replace(home_url);
+    }
+  });
  
   return (
     
