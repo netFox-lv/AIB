@@ -44,7 +44,7 @@ def AddInvoice(request):
 def GetAgreement(req, id):
     if req.method=="GET": #check if correct GET
         try:
-            agr=Agreement.objects.get(id=id) #find agreement w/ id, if this fails return except
+            agr=Agreement.objects.filter(owner=req.user).get(id=id) #find agreement w/ id, if this fails return except
             ser=AgreementSerializer(agr)
             return Response(ser.data)
         except Agreement.DoesNotExist:
@@ -54,7 +54,7 @@ def GetAgreement(req, id):
 def GetInvoice(request,id):
     if request.method == 'GET':
         try:
-            invoice = Invoice.objects.get(id=id)
+            invoice = Invoice.objects.filter(owner=request.user).get(id=id)
             serializer = InvoiceSerializer(invoice)
             serializer.data['document_file'] = invoice.document_file.url
             return Response(serializer.data)
@@ -82,7 +82,7 @@ def Login(req):
 def getAllAgreements(req):
     if req.method=="GET": #check if correct GET
         try:
-            data = list(Agreement.objects.values())
+            data = list(Agreement.objects.filter(owner=req.user).values())
             return Response({'data': data})
         except Agreement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -91,7 +91,7 @@ def getAllAgreements(req):
 def getAllInvoice(req):
     if req.method=="GET": #check if correct GET
         try:
-            data = list(Invoice.objects.values())
+            data = list(Invoice.objects.filter(owner=req.user).values())
             return Response({'data': data})
         except Invoice.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -100,7 +100,7 @@ def getAllInvoice(req):
 def getRecent(req):
     if req.method == "GET":
         try:
-            data = list(Invoice.objects.values())
+            data = list(Invoice.objects.filter(owner=req.user).values())
             data = sorted(data, key=lambda x: x["invoice_date"],reverse=True)
             data = data[0:10]
             return Response({'data': data})
@@ -111,7 +111,7 @@ def getRecent(req):
 def getUnresovledInv(req):
     if req.method == "GET":
         try:
-            data = Invoice.objects.filter(paid = False).count()
+            data = Invoice.objects.filter(owner=req.user).filter(paid = False).count()
             return Response({'count':data})
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -120,7 +120,7 @@ def getUnresovledInv(req):
 def getNewAgr(req):
     if req.method == "GET":
         try:
-            data = Agreement.objects.filter(status="pending sign off").count()
+            data = Agreement.objects.filter(owner=req.user).filter(status="pending sign off").count()
             return Response({'count':data})
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -129,7 +129,7 @@ def getNewAgr(req):
 def getFinAgr(req):
     if req.method == "GET":
         try:
-            data = Agreement.objects.filter(status="finished").count()
+            data = Agreement.objects.filter(owner=req.user).filter(status="signed").count()
             return Response({'count':data})
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -137,7 +137,11 @@ def getFinAgr(req):
 @api_view(['GET'])
 def getDrafts(req):
     if req.method == "GET":#TODO whatever needs to be done at the 4. widget
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            data = Agreement.objects.filter(owner=req.user).filter(status="draft").count()
+            return Response({'count':data})
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
 def getIncomePerMonth(req):
@@ -151,17 +155,20 @@ def getIncomePerMonth(req):
             for i in range(currMonth+1,13):#months from the previous year within a year of current
                 if not i==12:#have to take next january of year for next date if it's december
                     data.append([i,(Invoice.objects.all()
+                .filter(owner=req.user)
                 .filter(invoice_date__lt=datetime.date(currYear,i+1,1))#invoices before the next month's first day(less than)
                 .filter(invoice_date__gte=datetime.date(currYear,i,1))#invoices in this month's first day or later(greater or equal)
                 .aggregate(Sum('amount')))['amount__sum']])
                 else:
                     data.append([i,(Invoice.objects.all()
+                .filter(owner=req.user)
                 .filter(invoice_date__lt=datetime.date(currYear+1,1,1))#invoices before the next month's first day(less than)
                 .filter(invoice_date__gte=datetime.date(currYear,i,1))#invoices in this month's first day or later(greater or equal)
                 .aggregate(Sum('amount')))['amount__sum']])
             currYear += 1#back to the present year
             for i in range(1,currMonth+1):#all this year's months before current(never going to visit 12)
                 data.append([i,(Invoice.objects.all()
+                .filter(owner=req.user)
                 .filter(invoice_date__lt=datetime.date(currYear,i+1,1))#invoices before the next month's first day(less than)
                 .filter(invoice_date__gte=datetime.date(currYear,i,1))#invoices in this month's first day or later(greater or equal)
                 .aggregate(Sum('amount')))['amount__sum']])
@@ -174,7 +181,9 @@ def getIncomePerMonth(req):
 def getProgress(req):
     if req.method == "GET":
         try:
-            return
+            invoiceSum = Invoice.objects.all().filter(owner=req.user).filter(payment_method='by agreement').filter(paid=True).aggregate(Sum('amount'))['amount__sum']
+            agreementSum = Agreement.objects.all().filter(owner=req.user).filter(status='signed').aggregate(Sum('amount'))['amount__sum']
+            return Response({'earned':invoiceSum,'total':agreementSum})
         except:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -187,10 +196,7 @@ def getLoginInfo(req):
                 return Response({'logged_in':True,'username':req.user.username})
             else:
                 return Response({'logged_in':False})
-        except Exception as e:
-            print()
-            print(e)
-            print()
+        except:
             return Response({'logged_in':False},status=400)
 
 @api_view(['GET'])
