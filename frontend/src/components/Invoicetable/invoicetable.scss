@@ -1,0 +1,71 @@
+.invoicetable {
+    height: 580px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 50px;
+    
+    .link{
+        text-decoration: none;
+        color: white;
+        font-size: 16px;
+        background-color: #3751FF;
+        padding-left: 25px;
+        padding-right: 25px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-weight: 400;
+        border-radius: 10px;
+        cursor: pointer;
+        .content{
+           
+            display: flex;
+            align-items: center;
+        }
+        .icon{
+            font-size: 20px; 
+            align-items: center;
+        }
+      }
+    
+    .datatableTitle{
+      width: 100%;
+      font-size: 19px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    
+  
+    .cellWithStatus {
+      padding: 5px;
+      border-radius: 10px;
+  
+      &.paid {
+        background-color: #29CC97;
+        color: white;
+      }
+      &.pending {
+        background-color: #3751FF;
+        color: white;
+      }
+      &.draft {
+        background-color: #FEC400;
+        color: white;
+      }
+    }
+  
+    .cellAction {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+  
+      .icon {
+        color: gray;
+        cursor: pointer;
+      }
+      
+    }
+  }

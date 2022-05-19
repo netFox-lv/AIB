@@ -1,0 +1,14 @@
+.invoice{
+  display: flex;
+  .invoiceContainer{
+      background-color: #F7F8FC;
+      flex: 6;
+
+      .table{
+          background-color: white;
+          flex: 6;
+          margin: 20px;
+          padding: 20px;      
+      }
+  }
+}
