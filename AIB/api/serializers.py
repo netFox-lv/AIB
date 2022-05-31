@@ -12,6 +12,7 @@ class AgreementSerializer(serializers.ModelSerializer):
         'agreement_numurs',
         'amount',
         'customer',
+        'owner',
         'due_to_date',
         'status',
         'document_file'
@@ -24,6 +25,7 @@ class InvoiceSerializer(serializers.ModelSerializer):
             'id',
             'invoice_number',
             'customer',
+            'owner',
             'amount',
             'invoice_date',
             'payment_method',
