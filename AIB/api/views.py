@@ -30,6 +30,7 @@ def AddAgreement(request):
         print(form)
         if form.is_valid():
             newAgreement = form.save(commit=False)
+            newAgreement.owner = request.user
             newAgreement.document_file = request.FILES['document_file']
             newAgreement.save()
             return JsonResponse(form.data, status=201)
@@ -40,6 +41,7 @@ def AddAgreement(request):
 def AddInvoice(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)#from JSON
+        data["owner"] = request.user
         serializer = InvoiceSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -52,6 +54,10 @@ def GetAgreement(req, id):
         try:
             agr=Agreement.objects.filter(owner=req.user).get(id=id) #find agreement w/ id, if this fails return except
             ser=AgreementSerializer(agr)
+            try:
+                ser.data['document_file'] = agr.document_file.url
+            except:
+                ser.data['document_file'] = 'none'
             return Response(ser.data)
         except Agreement.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -62,7 +68,6 @@ def GetInvoice(request,id):
         try:
             invoice = Invoice.objects.filter(owner=request.user).get(id=id)
             serializer = InvoiceSerializer(invoice)
-            serializer.data['document_file'] = invoice.document_file.url
             return Response(serializer.data)
         except Invoice.DoesNotExist:
             return JsonResponse(status=404)
@@ -82,7 +87,7 @@ def Login(req):
             else:
                 return Response({'access_granted':False})
         except:
-            return Response(status=401)
+            return Response({'access_granted':False},status=401)
 
 @api_view(['GET'])
 def getAllAgreements(req):

@@ -3,9 +3,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import { randomCreatedDate, randomUpdatedDate } from '@mui/x-data-grid-generator';
 import { Link } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const all_invoices_url = "http://127.0.0.1:8000/api/invoice/all"
 
 const columns = [
-    { field: 'id', headerName: 'ID', flex:0.5  },
+    { field: 'invoice_number', headerName: 'Invoice number', flex:1  },
     { field: 'customer', headerName: 'Customer', flex:1 },
     {
       field: 'amount',
@@ -30,114 +34,42 @@ const columns = [
       flex:1
     },
     {
-        field: "status",
+        field: "paid",
         headerName: "Status",
         flex:1,
         renderCell: (params) => {
           return (
-            <div className={`cellWithStatus ${params.row.status}`}>
-              {params.row.status}
+            <div className={`cellWithStatus ${params.row.paid}`}>
+              {params.row.paid}
             </div>
           );
         },
       },
   ];
-
-  const rows = [
-    { 
-        id: 1, 
-        customer: 'Snow', 
-        amount: 35, 
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "paid" 
-    },
-    { 
-        id: 2, 
-        customer: 'Lannister', 
-        amount: 42,
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "paid" 
-    },
-    { 
-        id: 3, 
-        customer: 'Lannister', 
-        amount: 45,
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "pending"  
-    },
-    { 
-        id: 4, 
-        customer: 'Stark', 
-        amount: 16,
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "draft"  
-    },
-    { id: 5, 
-        customer: 'Targaryen', 
-        amount: 10,
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "paid"  
-    },
-    { 
-        id: 6, 
-        customer: 'Melisandre', 
-        amount: 150,
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "pending" 
-    },
-    { 
-        id: 7, 
-        customer: 'Clifford', 
-        amount: 44,
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "pending" 
-    },
-    { 
-        id: 8,
-        customer: 'Frances', 
-        amount: 36,
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "paid" 
-    },
-    { 
-        id: 9, 
-        customer: 'Roxie',
-        amount: 65,
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "draft"
-    },
-    { 
-        id: 10, 
-        customer: 'Roxie',
-        amount: 65,
-        invoice_date:  randomCreatedDate(), 
-        payment_method: 'cash',
-        payment_to_date:  randomUpdatedDate(),
-        status: "pending"
-    },
-  ];
     
   
 
-const Invoicetable = () => {
+export default function Invoicetable(){
+
+  const [rows, setData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await axios.get(all_invoices_url)
+        .then(function (res) {
+          let rows = res.data.data;
+          for (let i = 0; i<rows.length; i++){
+            rows[i]["paid"]=((rows[i]["paid"]==true)?"paid":"pending"); //convert from boolean to paid or pending
+          }
+          console.log(rows);
+          return rows;
+        })
+        .catch((e) => console.log(e));
+      setData(result);
+    }
+    fetchData();
+  }, []);
+
   return (
     
     <div className="invoicetable">
@@ -160,5 +92,3 @@ const Invoicetable = () => {
     </div>
   )
 }
-
-export default Invoicetable

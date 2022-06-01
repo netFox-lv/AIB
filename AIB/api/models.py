@@ -16,7 +16,7 @@ class Agreement(models.Model):
     agreement_numurs = models.TextField(unique=True,validators=[val_num]) # 2/3 letter + "-"+ 6xdigital [0-9] 
     amount = models.FloatField()
     customer = models.TextField()
-    owner = models.ForeignKey(User,default=1,on_delete=models.CASCADE)
+    owner = models.ForeignKey(User,default=7,on_delete=models.CASCADE) # default == admin
     due_to_date = models.DateField()
     status = models.TextField(choices=statuses.choices,default=statuses.DRAFT)
     document_file = models.FileField(upload_to = "agreements", blank=True)# file_path -> i need download -> get a link
