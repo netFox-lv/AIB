@@ -36,7 +36,7 @@ const New = () => {
                     <input type="date"/>
                   </div>
                   <div className="formInput">
-                    <label>Status</label>
+                    <label>Paid</label>
                     <input type="radio"/>
                   </div>
                 </div>
