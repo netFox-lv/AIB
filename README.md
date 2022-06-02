@@ -8,7 +8,10 @@ Front-end - @rihardsgramatins & @DmitrijsSevostjanovs
 Back-end - @KrishyB & @AleksandrsRumjancevs1
 ```
 # Launch backend 
-
+## First launch 
+```
+pip instal tesseract
+```
 
 ## Regular launch
 ```
